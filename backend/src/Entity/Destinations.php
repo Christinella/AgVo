@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DestinationsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,6 +36,27 @@ class Destinations
 
     #[ORM\ManyToOne(inversedBy: 'Destinations')]
     private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'destinations')]
+    private ?Pays $Pays = null;
+
+    /**
+     * @var Collection<int, Categories>
+     */
+    #[ORM\ManyToMany(targetEntity: Categories::class, inversedBy: 'destinations')]
+    private Collection $Categorie;
+
+    /**
+     * @var Collection<int, FormReservation>
+     */
+    #[ORM\OneToMany(targetEntity: FormReservation::class, mappedBy: 'destinations')]
+    private Collection $FormRservation;
+
+    public function __construct()
+    {
+        $this->Categorie = new ArrayCollection();
+        $this->FormRservation = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +143,64 @@ class Destinations
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPays(): ?Pays
+    {
+        return $this->Pays;
+    }
+
+    public function setPays(?Pays $Pays): static
+    {
+        $this->Pays = $Pays;
+
+        return $this;
+    }
+
+    public function addCategorie(Categories $categorie): static
+    {
+        if (!$this->Categorie->contains($categorie)) {
+            $this->Categorie->add($categorie);
+        }
+
+        return $this;
+    }
+
+    public function removeCategorie(Categories $categorie): static
+    {
+        $this->Categorie->removeElement($categorie);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FormReservation>
+     */
+    public function getFormRservation(): Collection
+    {
+        return $this->FormRservation;
+    }
+
+    public function addFormRservation(FormReservation $formRservation): static
+    {
+        if (!$this->FormRservation->contains($formRservation)) {
+            $this->FormRservation->add($formRservation);
+            $formRservation->setDestinations($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFormRservation(FormReservation $formRservation): static
+    {
+        if ($this->FormRservation->removeElement($formRservation)) {
+            // set the owning side to null (unless already changed)
+            if ($formRservation->getDestinations() === $this) {
+                $formRservation->setDestinations(null);
+            }
+        }
 
         return $this;
     }

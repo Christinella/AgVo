@@ -22,6 +22,12 @@ class FormReservation
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
+    #[ORM\ManyToOne(inversedBy: 'FormRservation')]
+    private ?Destinations $destinations = null;
+
+    #[ORM\ManyToOne(inversedBy: 'formReservations')]
+    private ?Statut $Statut = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +65,30 @@ class FormReservation
     public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getDestinations(): ?Destinations
+    {
+        return $this->destinations;
+    }
+
+    public function setDestinations(?Destinations $destinations): static
+    {
+        $this->destinations = $destinations;
+
+        return $this;
+    }
+
+    public function getStatut(): ?Statut
+    {
+        return $this->Statut;
+    }
+
+    public function setStatut(?Statut $Statut): static
+    {
+        $this->Statut = $Statut;
 
         return $this;
     }
