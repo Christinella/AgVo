@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FormReservation index{% endblock %}
+
+{% block body %}
+    <h1>FormReservation index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Email</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for form_reservation in form_reservations %}
+            <tr>
+                <td>{{ form_reservation.id }}</td>
+                <td>{{ form_reservation.nom }}</td>
+                <td>{{ form_reservation.prenom }}</td>
+                <td>{{ form_reservation.email }}</td>
+                <td>
+                    <a href="{{ path('app_form_reservation_show', {'id': form_reservation.id}) }}">show</a>
+                    <a href="{{ path('app_form_reservation_edit', {'id': form_reservation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_form_reservation_new') }}">Create new</a>
+{% endblock %}
