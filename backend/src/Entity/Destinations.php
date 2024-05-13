@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 #[ORM\Entity(repositoryClass: DestinationsRepository::class)]
 class Destinations
@@ -14,30 +16,40 @@ class Destinations
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['api_destinations_index',])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['api_destinations_index',])]
     private ?string $nom = null;
 
+
     #[ORM\Column(length: 255)]
+    #[Groups(['api_destinations_index',])]
     private ?string $image = null;
 
     #[ORM\Column]
+    #[Groups(['api_destinations_index',])]
     private ?int $prix = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['api_destinations_index',])]
     private ?string $categorie = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['api_destinations_index',])]
     private ?\DateTimeInterface $dateDepart = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['api_destinations_index',])]
     private ?\DateTimeInterface $dateArrivee = null;
 
     #[ORM\ManyToOne(inversedBy: 'Destinations')]
+    #[Groups(['api_destinations_index',])]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'destinations')]
+    #[Groups(['api_destinations_index',])]
     private ?Pays $Pays = null;
 
     /**

@@ -21,6 +21,6 @@ class DestinationsController extends AbstractController
     public function show(destinations $destinations): Response
     {
       
-       return $this->json($destinations,context: ['groups' => ['api_destinations_index', 'api_destinations_show']]);
+       return $this->json($destinations,context: ['groups' => [ 'api_destinations_show']]);
     }
 }

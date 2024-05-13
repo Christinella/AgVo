@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -39,19 +37,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
-    /**
-     * @var Collection<int, Destinations>
-     */
-    #[ORM\OneToMany(targetEntity: Destinations::class, mappedBy: 'user')]
-    private Collection $Destinations;
-
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
-
-    public function __construct()
-    {
-        $this->Destinations = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -148,36 +135,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Destinations>
-     */
-    public function getDestinations(): Collection
-    {
-        return $this->Destinations;
-    }
-
-    public function addDestination(Destinations $destination): static
-    {
-        if (!$this->Destinations->contains($destination)) {
-            $this->Destinations->add($destination);
-            $destination->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDestination(Destinations $destination): static
-    {
-        if ($this->Destinations->removeElement($destination)) {
-            // set the owning side to null (unless already changed)
-            if ($destination->getUser() === $this) {
-                $destination->setUser(null);
-            }
-        }
 
         return $this;
     }

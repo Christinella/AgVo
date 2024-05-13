@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\FormReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: FormReservationRepository::class)]
 class FormReservation
@@ -14,18 +15,22 @@ class FormReservation
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['api_FormReservation_index',])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['api_FormReservation_index',])]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
     #[ORM\ManyToOne(inversedBy: 'FormRservation')]
+    #[Groups(['api_FormReservation_index',])]
     private ?Destinations $destinations = null;
 
     #[ORM\ManyToOne(inversedBy: 'formReservations')]
+    #[Groups(['api_FormReservation_index',])]
     private ?Statut $Statut = null;
 
     public function getId(): ?int

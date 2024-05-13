@@ -1,0 +1,12 @@
+<header class="d-flex justify-content-between m-3 align-items-center">
+	<div class="fs-1">
+		Travelling
+	</div>
+	<div> 
+		{% if app.request.pathInfo != path('app_destinations_index') %}
+			<a href=" {{ path('app_destination_index') }}">Revenir à la liste des destinations</a>
+		{% else %}
+			
+		{% endif %}
+	</div>
+</header>
